@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package vista.rubrics.gr;
 
 import com.getcapacitor.BridgeActivity;
 

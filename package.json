@@ -1,5 +1,5 @@
 {
-  "name": "vistApp",
+  "name": "vistaApp",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -62,5 +62,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
   },
-  "description": "An Ionic project"
+  "description": "VISTA App - Erasmus+ Project"
 }

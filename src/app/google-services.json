@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "163614026555",
+    "project_id": "vistaapp-4951f",
+    "storage_bucket": "vistaapp-4951f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163614026555:android:c7307463cd93484480a51e",
+        "android_client_info": {
+          "package_name": "vista.rubrics.gr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyYtmOFyRRN3sHb1VsYgCCd9_zJCGRVn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
