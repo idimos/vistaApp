@@ -4,12 +4,12 @@ android {
     namespace = "io.ionic.starter"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.ionic.starter"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "io.ionic.starter"
+        minSdkVersion = rootProject.ext.minSdkVersion
+        targetSdkVersion = rootProject.ext.targetSdkVersion
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -18,17 +18,17 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(VISTA_STORE_FILE)
-            storePassword VISTA_STORE_PASSWORD
-            keyAlias VISTA_KEY_ALIAS
-            keyPassword VISTA_KEY_PASSWORD
+            storeFile = file(VISTA_STORE_FILE)
+            storePassword = VISTA_STORE_PASSWORD
+            keyAlias = VISTA_KEY_ALIAS
+            keyPassword = VISTA_KEY_PASSWORD
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.release
         }
     }
 }
