@@ -1,17 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Vista</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <section class="ion-padding status-panel" aria-live="polite">
+    <div class="logo-wrapper">
+      <img src="assets/Logo_VISTA.png" alt="Vista logo" class="vista-logo" />
+    </div>
+    <h1>NFC Audio Reader</h1>
+    <p class="status">{{ statusMessage }}</p>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <p><strong>Last NFC card:</strong> {{ lastTagId }}</p>
+
+    <ion-button expand="block" (click)="openNfcSettings()" [disabled]="nfcEnabled">
+      Open NFC Settings
+    </ion-button>
+  </section>
 </ion-content>

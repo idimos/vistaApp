@@ -1,0 +1,29 @@
+.status-panel {
+	.logo-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.2rem;
+	}
+
+	.vista-logo {
+		max-width: 220px;
+		width: 100%;
+		height: auto;
+	}
+
+	h1 {
+		font-size: 1.4rem;
+		margin-bottom: 0.8rem;
+	}
+
+	.status {
+		font-size: 1.1rem;
+		font-weight: 600;
+		line-height: 1.5;
+		margin-bottom: 1rem;
+	}
+
+	p {
+		margin: 0.65rem 0;
+	}
+}
