@@ -1,17 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Info
-    </ion-title>
+    <ion-title>Info</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Info</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="info-page ion-padding">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <div class="vista-logo-wrapper">
+      <img src="assets/Logo_VISTA.png" alt="Vista logo" class="vista-logo" />
+    </div>
+
+    <div class="project-info">
+      <h2 class="project-title">VISTA</h2>
+      <p class="project-subtitle">Visual Impairment Sensory Teaching of Astromythology</p>
+      <p class="project-code">
+        <strong>Project Code:</strong><br />
+        2025-1-EL01-KA210-SCH-000352375
+      </p>
+    </div>
+
+    <div class="partners">
+      <h3 class="partners-title">Partners</h3>
+      <div class="partners-logos">
+        <img src="assets/Logo 1 Gymnasio.png" alt="1o Gymnasio partner logo" class="partner-logo" />
+        <img src="assets/Logo Velko_Serbia.JPG" alt="Velko Serbia partner logo" class="partner-logo" />
+        <img src="assets/Logo Labstem.png" alt="Labstem partner logo" class="partner-logo" />
+      </div>
+    </div>
+
+  </div>
 </ion-content>
