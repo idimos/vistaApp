@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Vista</ion-title>
+    <ion-title>Vista App</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,10 +9,10 @@
     <div class="logo-wrapper">
       <img src="assets/Logo_VISTA.png" alt="Vista logo" class="vista-logo" />
     </div>
-    <h1>NFC Audio Reader</h1>
+    <h1>Constellations Reader</h1>
     <p class="status">{{ statusMessage }}</p>
 
-    <p><strong>Last NFC card:</strong> {{ lastTagId }}</p>
+    <p><strong>Last narration:</strong> {{ lastNarration }}</p>
 
     <ion-button expand="block" (click)="openNfcSettings()" [disabled]="nfcEnabled">
       Open NFC Settings

@@ -18,9 +18,7 @@ import {
 export class Tab1Page implements OnDestroy {
   statusMessage = 'Initializing...';
   nfcEnabled = false;
-  lastTagId = 'No card scanned yet';
-
-  private readonly audioFile = 'assets/BootesArcturus.m4a';
+  lastNarration = 'No narration played yet';
 
   private nfcEventListener?: PluginListenerHandle;
   private audioPlayer = new Audio();
@@ -85,28 +83,46 @@ export class Tab1Page implements OnDestroy {
   }
 
   private async handleNfcEvent(event: NfcEvent): Promise<void> {
-    const tagId = this.formatTagId(event.tag?.id);
-    this.lastTagId = tagId;
-    this.statusMessage = `Card detected: ${tagId}. Playing audio...`;
+    const filename = this.extractNdefText(event);
+
+    if (!filename) {
+      this.statusMessage = 'Tag scanned but no text record found.';
+      return;
+    }
+
+    this.lastNarration = filename;
+    this.statusMessage = `Tag detected. Playing: ${filename}`;
+
+    const audioPath = `assets/audio/${filename}`;
 
     try {
       this.audioPlayer.pause();
-      this.audioPlayer.src = this.audioFile;
+      this.audioPlayer.src = audioPath;
       this.audioPlayer.currentTime = 0;
       await this.audioPlayer.play();
-      this.statusMessage = `Playing: BootesArcturus (card ${tagId})`;
+      this.statusMessage = `Playing: ${filename}`;
     } catch {
-      this.statusMessage = `Failed to play audio for card ${tagId}.`;
+      this.statusMessage = `Failed to play "${filename}". Check that the file exists.`;
     }
   }
 
-  private formatTagId(rawId?: number[]): string {
-    if (!rawId || rawId.length === 0) {
-      return 'UNKNOWN';
+  private extractNdefText(event: NfcEvent): string {
+    const records = event.tag?.ndefMessage;
+    if (!records || records.length === 0) return '';
+
+    for (const record of records) {
+      const payload = record.payload;
+      if (!payload || payload.length === 0) continue;
+
+      // NDEF Text record: first byte = status (lang code length in bits 0-5)
+      const statusByte = payload[0];
+      const langCodeLength = statusByte & 0x3f;
+      const textBytes = payload.slice(1 + langCodeLength);
+      const text = new TextDecoder('utf-8').decode(new Uint8Array(textBytes)).trim();
+
+      if (text.length > 0) return text;
     }
-    return rawId
-      .map((value) => value.toString(16).padStart(2, '0').toUpperCase())
-      .join(':');
+    return '';
   }
 
   private async cleanup(): Promise<void> {
