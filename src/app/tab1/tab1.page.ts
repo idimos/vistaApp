@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Capacitor, PluginListenerHandle } from '@capacitor/core';
+import { Motion } from '@capacitor/motion';
 import { CapacitorNfc, NfcEvent } from '@capgo/capacitor-nfc';
 import {
   IonHeader,
@@ -8,6 +9,10 @@ import {
   IonContent,
   IonButton,
 } from '@ionic/angular/standalone';
+
+// Shake detection constants
+const SHAKE_THRESHOLD = 15;       // m/s² net acceleration required to count as a shake
+const SHAKE_COOLDOWN_MS = 1500;   // minimum ms between shake events
 
 @Component({
   selector: 'app-tab1',
@@ -21,11 +26,14 @@ export class Tab1Page implements OnDestroy {
   lastNarration = 'No narration played yet';
 
   private nfcEventListener?: PluginListenerHandle;
+  private motionListener?: PluginListenerHandle;
   private audioPlayer = new Audio();
   private scanningStarted = false;
+  private lastShakeTime = 0;
 
   async ionViewDidEnter(): Promise<void> {
     await this.initializeNfc();
+    await this.initializeShakeDetection();
   }
 
   async ionViewWillLeave(): Promise<void> {
@@ -42,6 +50,39 @@ export class Tab1Page implements OnDestroy {
     } catch {
       this.statusMessage = 'Unable to open NFC settings automatically.';
     }
+  }
+
+  private async initializeShakeDetection(): Promise<void> {
+    if (Capacitor.getPlatform() === 'web') {
+      return; // accelerometer not available on web
+    }
+
+    try {
+      this.motionListener = await Motion.addListener('accel', (event) => {
+        const { x, y, z } = event.accelerationIncludingGravity;
+        const magnitude = Math.sqrt(x * x + y * y + z * z);
+        // Subtract ~9.8 m/s² gravity to isolate user-induced acceleration
+        const netAcceleration = Math.abs(magnitude - 9.81);
+
+        const now = Date.now();
+        if (
+          !this.audioPlayer.paused &&
+          netAcceleration > SHAKE_THRESHOLD &&
+          now - this.lastShakeTime > SHAKE_COOLDOWN_MS
+        ) {
+          this.lastShakeTime = now;
+          this.stopNarration();
+        }
+      });
+    } catch {
+      // Accelerometer unavailable — silently skip shake detection
+    }
+  }
+
+  stopNarration(): void {
+    this.audioPlayer.pause();
+    this.audioPlayer.currentTime = 0;
+    this.statusMessage = 'Narration stopped. Hold an NFC card to play again.';
   }
 
   private async initializeNfc(): Promise<void> {
@@ -128,6 +169,9 @@ export class Tab1Page implements OnDestroy {
   private async cleanup(): Promise<void> {
     await this.nfcEventListener?.remove();
     this.nfcEventListener = undefined;
+
+    await this.motionListener?.remove();
+    this.motionListener = undefined;
 
     this.audioPlayer.pause();
 
